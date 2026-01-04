@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix - Data Controller</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Toolbar / Header -->
+        <header class="app-header">
+            <div class="logo">Matrix</div>
+            <div class="actions">
+                <button id="import-btn" class="btn btn-secondary">Import Data</button>
+                <button id="copy-json-btn" class="btn btn-secondary">Copy JSON</button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Form View Region -->
+            <section id="view-form" class="view-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Properties & Values</span>
+                    <button class="panel-collapse-btn">_</button>
+                </div>
+                <div class="panel-content" id="form-container">
+                    <!-- Form Content Generated Here -->
+                    <div class="empty-state">Select items to view properties</div>
+                </div>
+            </section>
+
+            <!-- Table View Region -->
+            <section id="view-table" class="view-panel flex-grow">
+                <div class="panel-header">
+                    <span class="panel-title">Data Table</span>
+                    <div class="panel-controls">
+                        <!-- Controls for table -->
+                    </div>
+                </div>
+                <div class="panel-content" id="table-container">
+                    <!-- Table Generated Here -->
+                </div>
+            </section>
+
+            <!-- Matrix View Region -->
+            <section id="view-matrix" class="view-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Matrix Overview</span>
+                    <div class="panel-controls">
+                        <!-- Pivot Controls could go here -->
+                    </div>
+                </div>
+                <div class="panel-content" id="matrix-container">
+                    <!-- Matrix Generated Here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="import-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Import Data</h3>
+            <p>Paste Excel, CSV, or TSV data below:</p>
+            <textarea id="import-textarea" placeholder="Paste data here..."></textarea>
+            <div class="modal-actions">
+                <button id="cancel-import-btn" class="btn btn-text">Cancel</button>
+                <button id="confirm-import-btn" class="btn btn-primary">Import</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

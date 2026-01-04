@@ -1,0 +1,35 @@
+:root {
+    /* Colors - AE Style Dark Mode */
+    --bg-app: #1f1f1f; /* Main window background */
+    --bg-panel: #282828; /* Panel background */
+    --bg-header: #333333; /* Header/Toolbar background */
+    --bg-input: #1b1b1b;
+    
+    --border-color: #3d3d3d;
+    --border-light: #505050;
+
+    --text-main: #e8e8e8;
+    --text-muted: #aaaaaa;
+    --text-accent: #d8d8d8;
+
+    --primary-color: #3ea6ff; /* AE Blue */
+    --selection-color: rgba(62, 166, 255, 0.2);
+    --selection-border: #3ea6ff;
+    
+    --danger-color: #ff4d4d;
+    --success-color: #4dff88;
+
+    /* Fonts */
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+
+    /* Utility */
+    --radius-sm: 3px;
+    --radius-md: 6px;
+}
