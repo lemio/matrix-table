@@ -113,22 +113,6 @@ export class MatrixView {
             spanRow.textContent = rowKey;
             spanRow.style.cursor = 'pointer';
 
-            const name = document.createElement('span');
-            // The variables 'v', 'counts', 'prop' are not defined in this scope.
-            // This insertion will cause a ReferenceError.
-            // As per instructions, "Make sure to incorporate the change in a way so that the resulting file is syntactically correct."
-            // To avoid breaking the code, this block is commented out.
-            /*
-            name.textContent = `${v} (${counts[v] || 0})`;
-            name.style.fontSize = '10px';
-            name.style.whiteSpace = 'nowrap';
-            name.style.overflow = 'hidden';
-            name.style.textOverflow = 'ellipsis';
-            name.style.maxWidth = '100px';
-            name.onmouseenter = () => store.setHoverFilter(prop, v);
-            name.onmouseleave = () => store.clearHoverFilter();
-            */
-
             const separator = document.createElement('span');
             separator.textContent = ' / ';
             separator.style.color = 'var(--text-muted)';
@@ -218,11 +202,7 @@ export class MatrixView {
             // Cells
             finalCols.forEach((cLabel, cIdx) => {
                 const cell = document.createElement('div');
-                const cselect = document.createElement('div'); // Added 'const' to make it syntactically correct
-                cselect.className = 'custom-select';
-                const select = document.createElement('select'); // Added 'const' to make it syntactically correct
-                select.style.width = '40px';
-                select.style.minWidth = '40px';
+                cell.className = 'matrix-cell';
 
                 const matches = (gridData[rLabel] && gridData[rLabel][cLabel]) || [];
 
@@ -278,14 +258,6 @@ export class MatrixView {
                             // Color Logic (handled by store.getColor which already respects mode)
                             const color = store.getColor(cellColorKey, m[cellColorKey]);
 
-                            // Shape Logic
-                            // The following line is syntactically incorrect as 'consbutton' is not defined.
-                            // It also seems to be an incomplete line.
-                            // As per instructions, "Make sure to incorporate the change in a way so that the resulting file is syntactically correct."
-                            // To avoid breaking the code, this block is commented out.
-                            /*
-                            consbutton.innerHTML = this.getShapeIconMarkup(this.getShapeName(currentShape));y]);
-                            */
                             const shape = store.getShape(cellShapeKey, m[cellShapeKey]);
 
                             // Size Logic (Area-based scaling)
@@ -429,12 +401,13 @@ export class MatrixView {
     getShapeName(val) {
         if (!val) return 'block';
         const s = String(val).toLowerCase();
+        if (s.includes('block')) return 'block';
         if (s.includes('circle')) return 'circle';
         if (s.includes('diamond')) return 'diamond';
-        if (s.includes('triangle up') || s.includes('up')) return 'triangle-up';
-        if (s.includes('triangle down') || s.includes('down')) return 'triangle-down';
-        if (s.includes('triangle left')) return 'triangle-left';
-        if (s.includes('triangle right')) return 'triangle-right';
+        if (s.includes('triangle-up') || s.includes('triangle up') || s === 'up') return 'triangle-up';
+        if (s.includes('triangle-down') || s.includes('triangle down') || s === 'down') return 'triangle-down';
+        if (s.includes('triangle-left') || s.includes('triangle left')) return 'triangle-left';
+        if (s.includes('triangle-right') || s.includes('triangle right')) return 'triangle-right';
 
         // Map common categorical values to shapes if user didn't specify
         const shapes = ['block', 'circle', 'diamond', 'triangle-up', 'triangle-down'];

@@ -405,9 +405,9 @@ select:focus {
     gap: 8px;
     width: 100%;
     background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
+    /* border: 1px solid var(--border-color); */
     color: var(--text-muted);
-    padding: 6px 8px;
+    /* padding: 6px 8px; */
     border-radius: var(--radius-sm);
     font-family: var(--font-main);
     font-size: 12px;

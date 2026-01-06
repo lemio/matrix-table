@@ -382,24 +382,35 @@ export class FormView {
                         catLabel.style.marginBottom = '4px';
                         controls.appendChild(catLabel);
 
-                        const uniqueVals = [...new Set(store.data.map(d => d[prop]))].sort();
-                        const list = document.createElement('div');
-                        list.style.maxHeight = '100px';
-                        list.style.overflowY = 'auto';
+                        const counts = {};
+                        store.data.forEach(d => {
+                            const val = d[prop];
+                            counts[val] = (counts[val] || 0) + 1;
+                        });
+
+                        const uniqueVals = Object.keys(counts).sort();
+                        const colorList = document.createElement('div');
+                        colorList.style.maxHeight = '100px';
+                        colorList.style.overflowY = 'auto';
                         uniqueVals.forEach(v => {
                             const row = document.createElement('div');
                             row.style.display = 'flex';
                             row.style.alignItems = 'center';
                             row.style.justifyContent = 'space-between';
                             row.style.marginBottom = '2px';
+                            row.style.padding = '2px 4px';
+                            row.style.borderRadius = '3px';
+
+                            row.onmouseenter = () => store.setHoverFilter(prop, v);
+                            row.onmouseleave = () => store.clearHoverFilter();
 
                             const name = document.createElement('span');
-                            name.textContent = v;
+                            name.textContent = `${v} (${counts[v] || 0})`;
                             name.style.fontSize = '10px';
                             name.style.whiteSpace = 'nowrap';
                             name.style.overflow = 'hidden';
                             name.style.textOverflow = 'ellipsis';
-                            name.style.maxWidth = '80px';
+                            name.style.maxWidth = '150px';
 
                             const picker = this.createColorPicker(store.getColor(prop, v), (newColor) => {
                                 store.setColorMapping(prop, v, newColor);
@@ -407,9 +418,9 @@ export class FormView {
 
                             row.appendChild(name);
                             row.appendChild(picker);
-                            list.appendChild(row);
+                            colorList.appendChild(row);
                         });
-                        controls.appendChild(list);
+                        controls.appendChild(colorList);
                     }
                 }
 
@@ -433,15 +444,20 @@ export class FormView {
                     });
 
                     const uniqueVals = [...new Set(store.data.map(d => d[prop]))].sort();
-                    const list = document.createElement('div');
-                    list.style.maxHeight = '150px';
-                    list.style.overflowY = 'auto';
+                    const shapeList = document.createElement('div');
+                    shapeList.style.maxHeight = '150px';
+                    shapeList.style.overflowY = 'auto';
                     uniqueVals.forEach(v => {
                         const row = document.createElement('div');
                         row.style.display = 'flex';
                         row.style.alignItems = 'center';
                         row.style.justifyContent = 'space-between';
                         row.style.marginBottom = '2px';
+                        row.style.padding = '2px 4px';
+                        row.style.borderRadius = '3px';
+
+                        row.onmouseenter = () => store.setHoverFilter(prop, v);
+                        row.onmouseleave = () => store.clearHoverFilter();
 
                         const name = document.createElement('span');
                         name.textContent = `${v} (${counts[v] || 0})`;
@@ -449,17 +465,21 @@ export class FormView {
                         name.style.whiteSpace = 'nowrap';
                         name.style.overflow = 'hidden';
                         name.style.textOverflow = 'ellipsis';
-                        name.style.maxWidth = '100px';
+                        name.style.maxWidth = '150px';
 
                         const select = document.createElement('select');
                         select.className = 'custom-select';
+                        select.style.width = '40px';
+                        select.style.minWidth = '40px';
 
                         const currentShape = store.getShape(prop, v);
 
-                        // Button for closed state
+                        // Button for closed state (Compact - No text)
                         const button = document.createElement('button');
                         button.setAttribute('slot', 'button');
-                        button.innerHTML = this.getShapeIconMarkup(currentShape) + `<span>${currentShape}</span>`;
+                        button.style.width = '40px';
+                        button.style.justifyContent = 'center';
+                        button.innerHTML = this.getShapeIconMarkup(currentShape);
                         select.appendChild(button);
 
                         store.availableShapes.forEach(s => {
@@ -468,14 +488,14 @@ export class FormView {
                         });
                         select.onchange = () => {
                             store.setShapeMapping(prop, v, select.value);
-                            button.innerHTML = this.getShapeIconMarkup(select.value) + `<span>${select.value}</span>`;
+                            button.innerHTML = this.getShapeIconMarkup(select.value);
                         };
 
                         row.appendChild(name);
                         row.appendChild(select);
-                        list.appendChild(row);
+                        shapeList.appendChild(row);
                     });
-                    controls.appendChild(list);
+                    controls.appendChild(shapeList);
                 }
             } else {
                 // Fixed Mode Controls
@@ -489,11 +509,15 @@ export class FormView {
                     const shapes = store.availableShapes;
                     const select = document.createElement('select');
                     select.className = 'custom-select';
+                    select.style.width = '40px';
+                    select.style.minWidth = '40px';
 
                     const currentShape = store.config.matrixCellStaticValues.shape;
                     const button = document.createElement('button');
                     button.setAttribute('slot', 'button');
-                    button.innerHTML = this.getShapeIconMarkup(currentShape) + `<span>${currentShape}</span>`;
+                    button.style.width = '40px';
+                    button.style.justifyContent = 'center';
+                    button.innerHTML = this.getShapeIconMarkup(currentShape);
                     select.appendChild(button);
 
                     shapes.forEach(s => {
@@ -502,7 +526,7 @@ export class FormView {
                     });
                     select.onchange = () => {
                         store.config.matrixCellStaticValues.shape = select.value;
-                        button.innerHTML = this.getShapeIconMarkup(select.value) + `<span>${select.value}</span>`;
+                        button.innerHTML = this.getShapeIconMarkup(select.value);
                         store.save();
                         store.emit('dataChanged');
                     };
@@ -541,10 +565,10 @@ export class FormView {
         opt.value = shape;
         if (isSelected) opt.selected = true;
 
+        // Compact Option - Just Icon
         opt.innerHTML = `
-            <div class="option-content">
+            <div class="option-content" style="justify-content: center; width: 100%;">
                 ${this.getShapeIconMarkup(shape)}
-                <span>${shape}</span>
             </div>
         `;
         return opt;
@@ -599,6 +623,7 @@ export class FormView {
     }
 
     rgbToHex(rgb) {
+        if (!rgb) return '#ffffff';
         if (rgb.startsWith('#')) return rgb;
         const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
         if (!match) return '#ffffff';
