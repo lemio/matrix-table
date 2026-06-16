@@ -1,3 +1,5 @@
+Please try at https://lemio.github.io/matrix-table/
+
 https://github.com/user-attachments/assets/b667b8a5-9056-4b47-80c1-2a57ffb2d893
 
 A Matrix you could see as a grid of rows of a table. So each cell in the Matrix contains a row in a table. In this way, it is easier to compare and edit batches of rows. It allows you to order rows of a table in certain ways. This can make it easier to compare differences among certain critical variables. You might want to look at the origin on the Y axis and the arrival time on the X axis. You might want to track which trains are delayed and on which track they are delayed. Generally speaking, the Y axis is nice for textual elements, since we have horizontal writing; the X axis is good for numbered content, or time-related properties. Since we read from left to right; we also expect time to go from left to right.
