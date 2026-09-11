@@ -72,6 +72,11 @@ html {
     flex: 2;
 }
 
+#view-form {
+    flex: 0 0 250px;
+    width: 250px;
+}
+
 .panel-header {
     height: 32px;
     background-color: var(--bg-header);
